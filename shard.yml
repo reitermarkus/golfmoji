@@ -1,0 +1,11 @@
+name: ⛳️
+version: 0.1.0
+
+authors:
+  - Markus Reiter <me@reitermark.us>
+
+targets:
+  golfmoji:
+    main: src/golfmoji.cr
+
+crystal: 0.22.0
