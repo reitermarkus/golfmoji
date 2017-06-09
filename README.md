@@ -19,7 +19,7 @@ First we want to implement a working golfmoji-interpreter, which will be written
 We will only allow **256** *(= 2^8)* emojis.
 Therefore we can simply create a emoji-code-table:
 
-## Commit-Convetions
+## Commit-Conventions
 Of course, each commit-message *should* contain at least one emoji. 
 
 Here are the most important guide-lines, which emoji you could use for each commit-type:
