@@ -1,1 +1,3 @@
-../src/golfmoji.cr
+#!/usr/bin/env crystal
+
+require "../src/golfmoji.cr"
