@@ -1,5 +1,5 @@
 module Golfmoji
-  FUNCTIONS = {} of Char => Golfmoji
+  FUNCTIONS = {} of String => Golfmoji
 
   macro moji(name, *args, &block)
     class Emoji_{{name.id}}
@@ -27,15 +27,15 @@ module Golfmoji
     FUNCTIONS[{{name}}] = Emoji_{{name.id}}.new.as(Golfmoji)
   end
 
-  moji '⛳' {
+  moji "⛳" {
     "Hello World!"
   }
 
-  moji '🎲' {
+  moji "🎲" {
     rand
   }
 
-  moji '⚖', a : Comparable, b : Comparable {
+  moji "⚖", a : Comparable, b : Comparable {
     if a.is_a?(Array) && b.is_a?(Array)
       a.zip(b).map { |e| e[0] <=> e[1] }
     else
@@ -43,12 +43,24 @@ module Golfmoji
     end
   }
 
+  moji "0️⃣" {  0 }
+  moji "1️⃣" {  1 }
+  moji "2️⃣" {  2 }
+  moji "3️⃣" {  3 }
+  moji "4️⃣" {  4 }
+  moji "5️⃣" {  5 }
+  moji "6️⃣" {  6 }
+  moji "7️⃣" {  7 }
+  moji "8️⃣" {  8 }
+  moji "9️⃣" {  9 }
+  moji "🔟" { 10 }
+
   def self.function(moji)
     FUNCTIONS[moji]
   end
 end
 
-f = Golfmoji.function('⚖')
+f = Golfmoji.function("⚖")
 if f
   p f.call(5, 4)
   p f.call([5, 3, 5], [2, 4, 5])
