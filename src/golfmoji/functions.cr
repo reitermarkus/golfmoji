@@ -60,7 +60,7 @@ module Golfmoji
                     end
                 elsif a.is_a?(Golfmoji::Num) && b.is_a?(Array(Golfmoji::Num))
                     b.map do |e|
-                        e <=> a
+                        a <=> e
                     end
                 elsif a.is_a?(Golfmoji::Num) && b.is_a?(Golfmoji::Num)
                     a <=> b
