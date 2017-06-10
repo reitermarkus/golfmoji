@@ -1,20 +1,40 @@
+module Nilad
+  def arity; 0; end
+  def call; end
+end
+
+module Monad
+  def arity; 1; end
+  def call(a : Object); end
+end
+
+module Bylad
+  def arity; 2; end
+  def call(a : Object, b : Object); end
+end
+
+alias Function = Nilad | Monad | Bylad
+
 module Golfmoji
-  FUNCTIONS = {} of String => Golfmoji
+  FUNCTIONS = {} of String => Function
 
   macro moji(name, *args, &block)
     class Emoji_{{name.id}}
-      include Golfmoji
-
-      def arity
-        {{ args.size }}
-      end
+      include
+        {% if args.size == 0 %}
+          Nilad
+        {% elsif args.size == 1 %}
+          Monad
+        {% else %}
+          Bylad
+        {% end %}
 
       {% if args.size == 0 %}
-        def call(*ignored)
+        def call
           {{block.body}}
         end
       {% else %}
-        def call({{*args}}, *ignored)
+        def call({{*args}})
           {{block.body}}
         end
       {% end %}
@@ -24,7 +44,7 @@ module Golfmoji
       end
     end
 
-    FUNCTIONS[{{name}}] = Emoji_{{name.id}}.new.as(Golfmoji)
+    FUNCTIONS[{{name}}] = Emoji_{{name.id}}.new.as(Function)
   end
 
   moji "⛳" {
@@ -35,33 +55,73 @@ module Golfmoji
     rand
   }
 
-  moji "⚖", a : Comparable, b : Comparable {
-    if a.is_a?(Array) && b.is_a?(Array)
-      a.zip(b).map { |e| e[0] <=> e[1] }
-    else
-      a <=> b
-    end
+  moji "⚖", a : Array, b : Array {
+    a.zip(b).map { |e| e[0] <=> e[1] }
   }
 
-  moji "0️⃣" {  0 }
-  moji "1️⃣" {  1 }
-  moji "2️⃣" {  2 }
-  moji "3️⃣" {  3 }
-  moji "4️⃣" {  4 }
-  moji "5️⃣" {  5 }
-  moji "6️⃣" {  6 }
-  moji "7️⃣" {  7 }
-  moji "8️⃣" {  8 }
-  moji "9️⃣" {  9 }
-  moji "🔟" { 10 }
+  moji "⚖", a : Number, b : Number { a <=> b }
+  moji "⚖", a : String, b : String { a <=> b }
+
+  moji "0️⃣" {  0.0 }
+  moji "1️⃣" {  1.0 }
+  moji "2️⃣" {  2.0 }
+  moji "3️⃣" {  3.0 }
+  moji "4️⃣" {  4.0 }
+  moji "5️⃣" {  5.0 }
+  moji "6️⃣" {  6.0 }
+  moji "7️⃣" {  7.0 }
+  moji "8️⃣" {  8.0 }
+  moji "9️⃣" {  9.0 }
+  moji "🔟" { 10.0 }
+
+  moji "➕", a : Number, b : Number { a + b }
+  moji "➖", a : Number, b : Number { a - b }
+  moji "➗", a : Number, b : Number { a / b }
+  moji "✖️", a : Number, b : Number { a * b }
 
   def self.function(moji)
     FUNCTIONS[moji]
   end
 end
 
-f = Golfmoji.function("⚖")
-if f
-  p f.call(5, 4)
-  p f.call([5, 3, 5], [2, 4, 5])
+begin
+  value = 0
+
+  ary = ["3️⃣", "➕", "🔟", "➗", "🔟"]
+
+  applicators = [] of Bylad
+
+  ary.each do |moji|
+    function = Golfmoji.function(moji)
+
+    case function.arity
+    when 0
+      puts "Arity 0: #{function}"
+      tmp = function.as(Nilad).call
+
+      until applicators.empty?
+        app = applicators.pop
+        puts "Applying #{app}."
+        tmp = app.call(value, tmp)
+      end
+
+      value = tmp
+    when 1
+      puts "Temp value."
+      tmp = function.as(Monad).call(value)
+
+      until applicators.empty?
+        app = applicators.pop
+        puts "Applying #{app}."
+        tmp = app.call(value, tmp).not_nil!
+      end
+
+      value = tmp
+    else
+      puts "Adding applicator #{function}"
+      applicators << function.as(Bylad)
+    end
+  end
+
+  puts value
 end
