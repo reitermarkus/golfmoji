@@ -6,15 +6,24 @@ module Golfmoji
         FUNCTIONS = {
             '⛳' => {
                 name: "golfmoji",
-                func: ->{ print("Hello World!") }
+                type: :nilad,
+                nilad: ->{ print("Hello World!") },
+                monad: nil,
+                bylad: nil
             },
             '🎲' => {
                 name: "random",
-                func: ->{ rand }
+                type: :nilad,
+                nilad: ->{ p rand },
+                monad: nil,
+                bylad: nil
             },
             '⚖' => {
                 name: "compare",
-                func: ->(a : A, b : B) { a < b if a.is_a?(Comparable) && b.is_a?(Comparable) }
+                type: :bylad,
+                nilad: nil,
+                monad: nil,
+                bylad: ->(a : Int32, b : Int32) { a <=> b if a.is_a?(Comparable) && b.is_a?(Comparable) }
             }
         }
         def self.functions
@@ -23,4 +32,7 @@ module Golfmoji
     end
 end
 
-p Golfmoji::Golfmojifunctions(Int32, Int32, Int32).functions['⚖']["func"].call(5, 3)
+f = Golfmoji::Golfmojifunctions.functions['⚖']["bylad"]
+if f
+    p f.call(5, 3)
+end
