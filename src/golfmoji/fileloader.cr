@@ -2,7 +2,7 @@ module Golfmoji
 
     # loads a file (given as a startup-argument or by terminal-input)
     # and returns it's content as an emoji-array
-    def self.loadSourceCode
+    def self.loadSource
 
         argsize = ARGV.size;
 
@@ -44,4 +44,4 @@ module Golfmoji
 
 end
 
-p Golfmoji.loadSourceCode
+p Golfmoji.loadSource
