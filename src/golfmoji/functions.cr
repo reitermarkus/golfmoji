@@ -45,21 +45,27 @@ module Golfmoji
         FUNCTIONS[{{name}}] = Emoji_{{name.id}}.new.as(Function)
     end
 
-    moji "⛳" {
-        "Hello World!"
-    }
+    # values
+    moji "⛳" { "Hello World!" }
 
-    moji "🎲" {
-        rand
-    }
+    moji "🎲" { rand }
 
-    moji "⚖", a : Array(Number), b : Array(Number) {
-        a.zip(b).map { |e| e[0] <=> e[1] }
-    }
+    # printing
+    moji "💬", a : Object { print(a.to_s + "\n") }
+    moji "🙊" { "" }
 
-    moji "⚖", a : Number, b : Number { a <=> b }
-    moji "⚖", a : String, b : String { a <=> b }
+    # strings
+    moji "💥", a : String { a.chars }
+    moji "✂", a : String, b : String { a.split(b) }
+    moji "🔗", a : Array(String), b : String { a.join(b) }
 
+    # booleans
+#    moji "🚨", 
+
+    # arrays
+    moji "🐂🚜", a : Array { a.flatten }
+
+    # numbers
     moji "0️⃣" {  0.0 }
     moji "1️⃣" {  1.0 }
     moji "2️⃣" {  2.0 }
@@ -72,14 +78,24 @@ module Golfmoji
     moji "9️⃣" {  9.0 }
     moji "🔟" { 10.0 }
 
+    # comparing
+    moji "⚖", a : Number, b : Number { a <=> b }
+    moji "⚖", a : String, b : String { a <=> b }
+    moji "⚖", a : Array(Number), b : Array(Number) {
+        a.zip(b).map { |e| e[0] <=> e[1] }
+    }
+
+    # math
     moji "➕", a : Number, b : Number { a + b }
     moji "➕", a : String, b : Number { a + b.to_s }
     moji "➖", a : Number, b : Number { a - b }
     moji "➗", a : Number, b : Number { a / b }
     moji "✖", a : Number, b : Number { a * b }
     moji "✖", a : String, b : Number { a * b.to_i }
-
-    moji "💥", a : String { a.chars }
+    moji "✔", a : Number { Math.sqrt(a) }
+    moji "✔", a : Array(Number) {
+        a.map { |e| Math.sqrt(e) }
+    }
 
     def self.function(moji)
         FUNCTIONS[moji]
