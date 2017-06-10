@@ -54,6 +54,14 @@ module Golfmoji
                     (a.zip b).map do |e|
                         e[0] <=> e[1]
                     end
+                elsif a.is_a?(Array(Golfmoji::Num)) && b.is_a?(Golfmoji::Num)
+                    a.map do |e|
+                        e <=> b
+                    end
+                elsif a.is_a?(Golfmoji::Num) && b.is_a?(Array(Golfmoji::Num))
+                    b.map do |e|
+                        e <=> a
+                    end
                 elsif a.is_a?(Golfmoji::Num) && b.is_a?(Golfmoji::Num)
                     a <=> b
                 end
