@@ -8,12 +8,12 @@ module Monad
   def call(a : Object); end
 end
 
-module Bylad
+module Dyad
   def arity; 2; end
   def call(a : Object, b : Object); end
 end
 
-alias Function = Nilad | Monad | Bylad
+alias Function = Nilad | Monad | Dyad
 
 module Golfmoji
   FUNCTIONS = {} of String => Function
@@ -26,7 +26,7 @@ module Golfmoji
         {% elsif args.size == 1 %}
           Monad
         {% else %}
-          Bylad
+          Dyad
         {% end %}
 
       {% if args.size == 0 %}
@@ -85,11 +85,11 @@ module Golfmoji
 end
 
 begin
-  value = 0
+  value = nil
 
   ary = ["3️⃣", "➕", "🔟", "➗", "🔟"]
 
-  applicators = [] of Bylad
+  applicators = [] of Dyad
 
   ary.each do |moji|
     function = Golfmoji.function(moji)
@@ -119,7 +119,7 @@ begin
       value = tmp
     else
       puts "Adding applicator #{function}"
-      applicators << function.as(Bylad)
+      applicators << function.as(Dyad)
     end
   end
 
