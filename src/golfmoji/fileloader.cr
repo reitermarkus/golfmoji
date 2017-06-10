@@ -43,5 +43,3 @@ module Golfmoji
 
 
 end
-
-p Golfmoji.load_source

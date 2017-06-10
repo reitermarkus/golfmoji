@@ -4,4 +4,10 @@ module Golfmoji
 
 end
 
-#Golfmoji._execute(Golfmoji.load_source || ['⛳'])
+#p Golfmoji.exec(Golfmoji.load_source || ['⛳'])
+
+p Golfmoji.exec(["3️⃣", "➕", "🔟", "➗", "🔟"]);
+
+p Golfmoji.exec(["⛳", "✖", "2️⃣"]);
+
+p Golfmoji.exec(["⛳", "💥"]);
