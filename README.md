@@ -1,9 +1,6 @@
 # ⛳️ golfmoji
-<<<<<<< HEAD
+
 golfmoji is a new esoteric golfing language, which is currently heavily under development. The source-code contains ONLY emojis. Each emoji will be interpreted as a function or operation or stuff like that.
-=======
-golfmoji is a new esoteric golfing language, which is currently heavy under development. The source-code contains ONLY emojis. Each emoji will be interpreted as a function or operation or stuff like that.
->>>>>>> 6838f6fee159baa615fe6d6978b6bfca3e455bd8
 
 ## Why emojis?!
 Beside this language, there are existing many other great golfing languages.
