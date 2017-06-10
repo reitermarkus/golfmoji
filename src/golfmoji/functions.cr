@@ -1,56 +1,46 @@
 module Golfmoji
-  class Golf
-    def self.arity
-      0
+  FUNCTIONS = {} of Char => Golfmoji
+
+  macro moji(name, *args, &block)
+    class Emoji_{{name.id}}
+      include Golfmoji
+
+      def arity
+        {{ args.size }}
+      end
+
+      {% if args.size == 0 %}
+        def call(*ignored)
+          {{block.body}}
+        end
+      {% else %}
+        def call({{*args}}, *ignored)
+          {{block.body}}
+        end
+      {% end %}
+
+      def moji
+        {{name}}
+      end
     end
 
-    def self.call(*ignored)
-      "Hello World!"
-    end
-
-    def self.moji
-      '⛳'
-    end
+    FUNCTIONS[{{name}}] = Emoji_{{name.id}}.new.as(Golfmoji)
   end
 
-  class Dice
-    def self.arity
-      0
-    end
+  moji '⛳' {
+    "Hello World!"
+  }
 
-    def self.call(*ignored)
-      rand
-    end
+  moji '🎲' {
+    rand
+  }
 
-    def self.moji
-      '🎲'
-    end
-  end
-
-  class Emoji_⚖
-    def self.arity
-      2
-    end
-
-    def self.call(a : Number | String, b : Number | String, *ignored)
+  moji '⚖', a : Comparable, b : Comparable {
+    if a.is_a?(Array) && b.is_a?(Array)
+      a.zip(b).map { |e| e[0] <=> e[1] }
+    else
       a <=> b
     end
-
-    def self.call(a : Array(Number), b : Array(Number), *ignored)
-      (a.zip b).map { |e|
-        e[0] <=> e[1]
-      }
-    end
-
-    def self.moji
-      '⚖'
-    end
-  end
-
-  FUNCTIONS = {
-    '⛳' => Golf,
-    '🎲' => Dice,
-    '⚖' => Emoji_⚖,
   }
 
   def self.function(moji)
