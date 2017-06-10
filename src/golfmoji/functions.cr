@@ -1,12 +1,16 @@
 module Golfmoji
   FUNCTIONS = {
+    "⛳" => {
+      name: "golfmoji",
+      func: ->{ print("Hello World!") }
+    }
     "🎲" => {
       name: "random",
-      func: ->{ rand },
+      func: ->{ rand }
     },
     "⚖️" => {
       name: "compare",
-      func: ->(a, b) { a <=> b },
+      func: ->(a, b) { a <=> b }
     },
   }
 end
