@@ -16,6 +16,7 @@ end
 alias Function = Nilad | Monad | Dyad
 
 module Golfmoji
+
     FUNCTIONS = {} of String => Function
 
     macro moji(name, *args, &block)
@@ -45,6 +46,9 @@ module Golfmoji
         FUNCTIONS[{{name}}] = Emoji_{{name.id}}.new.as(Function)
     end
 
+    # access result of previous chain
+    moji "🔗" { 0 }
+
     # values
     moji "⛳" { "Hello World!" }
 
@@ -57,13 +61,22 @@ module Golfmoji
     # strings
     moji "💥", a : String { a.chars }
     moji "✂", a : String, b : String { a.split(b) }
-    moji "🔗", a : Array(String), b : String { a.join(b) }
+    moji "🖇", a : Array(String), b : String { a.join(b) }
 
     # booleans
 #    moji "🚨", 
 
     # arrays
-    moji "🐂🚜", a : Array { a.flatten }
+    moji "🚜", a : Array { a.flatten }
+    moji "➿", a : Array, b : Array {
+        p a
+        p b
+        5
+        #if a.size == 0 && b.size == 0
+        #    return Nil
+        #end
+        #[] of typeof(a[0]) || typeof(b[0])
+    }
 
     # numbers
     moji "0️⃣" {  0.0 }
@@ -77,13 +90,15 @@ module Golfmoji
     moji "8️⃣" {  8.0 }
     moji "9️⃣" {  9.0 }
     moji "🔟" { 10.0 }
+#    moji "🔢", a : Number { (0..a).to_a }
+#    moji "🔛", a : Number, b : Number { (a..b).to_a }
 
     # comparing
     moji "⚖", a : Number, b : Number { a <=> b }
     moji "⚖", a : String, b : String { a <=> b }
-    moji "⚖", a : Array(Number), b : Array(Number) {
-        a.zip(b).map { |e| e[0] <=> e[1] }
-    }
+#    moji "⚖", a : Array(Number), b : Array(Number) {
+#        a.zip(b).map { |e| e[0] <=> e[1] }
+#    }
 
     # math
     moji "➕", a : Number, b : Number { a + b }
@@ -101,15 +116,15 @@ module Golfmoji
         FUNCTIONS[moji]
     end
 
-    def self.exec(src)
+    def self.exec_chain(chain)
 
-        print("\nexecuting:\n" + src.to_s + ":\n\n");
+        print("\nexecuting:\n" + chain.to_s + ":\n\n");
 
         value = nil
 
         applicators = [] of Dyad
 
-        src.each do |moji|
+        chain.each do |moji|
         function = Golfmoji.function(moji)
 
         case function.arity
@@ -120,8 +135,9 @@ puts "Arity 0: #{function}"
 puts "Temp value: " + tmp.inspect
                 until applicators.empty?
                     app = applicators.pop
-puts "Applying #{app}."
+puts "Applying #{app} with #{value} and #{tmp}."
                     tmp = app.call(value, tmp)
+puts "Temp value: " + tmp.inspect
                 end
 
                 value = tmp
@@ -133,7 +149,8 @@ puts "Temp value: " + tmp.inspect
                 until applicators.empty?
                     app = applicators.pop
 puts "Applying #{app}."
-                    tmp = app.call(value, tmp).not_nil!
+                    tmp = app.call(value, tmp)
+puts "Temp value: " + tmp.inspect
                 end
 
                 value = tmp
@@ -148,5 +165,11 @@ puts "Adding applicator #{function}"
 
         value
 
+    end
+
+    def self.exec(src)
+        src.each { |chain|
+            exec_chain(chain)
+        }
     end
 end

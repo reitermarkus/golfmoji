@@ -6,8 +6,10 @@ end
 
 #p Golfmoji.exec(Golfmoji.load_source || ['⛳'])
 
-p Golfmoji.exec(["3️⃣", "➕", "🔟", "➗", "🔟"]);
+p Golfmoji.exec_chain(["3️⃣", "➕", "🔟", "➗", "🔟"]);
 
-p Golfmoji.exec(["⛳", "✖", "2️⃣"]);
+p Golfmoji.exec_chain(["⛳", "✖", "2️⃣"]);
 
-p Golfmoji.exec(["⛳", "💥"]);
+p Golfmoji.exec_chain(["⛳", "💥"]);
+
+p Golfmoji.exec([["⛳", "💥"], ["🔗", "➿", "🔗"]]);
