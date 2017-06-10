@@ -1,9 +1,9 @@
-macro num(val)
-    Golfmoji::Num.new({{val}})
+macro num
+    Golfmoji::Num
 end
 
-macro arr(arr)
-    Golfmoji::Arr.new({{arr}})
+macro num(val)
+    num.new({{val}})
 end
 
 module Golfmoji
@@ -32,55 +32,30 @@ module Golfmoji
         end
     end
 
-    class Arr
-        @a : Array(Golfmoji::Num)
-
-        def initialize(a)
-            @a = a
-        end
-
-        def <=>(o)
-            @a <=> o.a
-        end
-
-        def a
-            @a
-        end
-
-        def inspect(io)
-            io << @a.to_s
-        end
-
-        def to_s(io)
-            io << @a.to_s
-        end
-    end
-
     FUNCTIONS = {
         '⛳' => {
             name: "golfmoji",
-            type: :nilad,
             nilad: ->{ print("Hello World!") },
             monad: nil,
             bylad: nil
         },
         '🎲' => {
             name: "random",
-            type: :nilad,
             nilad: ->{ p rand },
             monad: nil,
             bylad: nil
         },
         '⚖' => {
             name: "compare",
-            type: :bylad,
             nilad: nil,
             monad: nil,
-            bylad: ->(a : Golfmoji::Num | Golfmoji::Arr, b : Golfmoji::Num | Golfmoji::Arr) {
-                if a.is_a?(Golfmoji::Arr) && b.is_a?(Golfmoji::Arr)
-                    arr([num(a <=> b)])
+            bylad: ->(a : Golfmoji::Num | Array(Golfmoji::Num), b : Golfmoji::Num | Array(Golfmoji::Num)) {
+                if a.is_a?(Array(Golfmoji::Num)) && b.is_a?(Array(Golfmoji::Num))
+                    (a.zip b).map do |e|
+                        e[0] <=> e[1]
+                    end
                 elsif a.is_a?(Golfmoji::Num) && b.is_a?(Golfmoji::Num)
-                    Golfmoji::Num.new(a <=> b)
+                    num(a <=> b)
                 end
             }
         }
@@ -93,6 +68,7 @@ end
 
 f = Golfmoji.functions['⚖']["bylad"]
 if f
+    p f.arity
     p f.call(num(5), num(3))
-    p f.call(arr([num(5), num(3)]), arr([num(4), num(2)]))
+    p f.call([num(5), num(3), num(5)], [num(2), num(4), num(5)])
 end
