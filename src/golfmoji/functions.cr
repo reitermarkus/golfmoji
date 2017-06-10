@@ -53,7 +53,7 @@ module Golfmoji
         rand
     }
 
-    moji "⚖", a : Array, b : Array {
+    moji "⚖", a : Array(Number), b : Array(Number) {
         a.zip(b).map { |e| e[0] <=> e[1] }
     }
 
@@ -79,7 +79,7 @@ module Golfmoji
     moji "✖", a : Number, b : Number { a * b }
     moji "✖", a : String, b : Number { a * b.to_i }
 
-    moji "💥", a : String { a.chars.each &.to_s }
+    moji "💥", a : String { a.chars }
 
     def self.function(moji)
         FUNCTIONS[moji]
