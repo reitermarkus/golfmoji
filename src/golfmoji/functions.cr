@@ -16,7 +16,7 @@ module Golfmoji
         end
 
         def <=>(o)
-            @val <=> o.val
+            num(@val <=> o.val)
         end
 
         def val
@@ -55,7 +55,7 @@ module Golfmoji
                         e[0] <=> e[1]
                     end
                 elsif a.is_a?(Golfmoji::Num) && b.is_a?(Golfmoji::Num)
-                    num(a <=> b)
+                    a <=> b
                 end
             }
         }
