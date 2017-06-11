@@ -5,19 +5,31 @@ end
 
 module Monad
     def arity; 1; end
-    def call(a : Object); end
+    def call(a); end
 end
 
 module Dyad
     def arity; 2; end
-    def call(a : Object, b : Object); end
+    def call(a, b); end
 end
 
+alias Val = Array(Char) | Array(String) | Float64 | Int32 | Char | String | Nil
 alias Function = Nilad | Monad | Dyad
 
 module Golfmoji
 
     FUNCTIONS = {} of String => Function
+
+    @@last_chain : Val
+    @@last_chain = nil
+
+    def self.last_chain
+        @@last_chain
+    end
+
+    def self.last_chain=(v)
+        @@last_chain = v
+    end
 
     macro moji(name, *args, &block)
         class Emoji_{{name.id}}
@@ -47,7 +59,7 @@ module Golfmoji
     end
 
     # access result of previous chain
-    moji "🔗" { 0 }
+    moji "🔗" { Golfmoji.last_chain }
 
     # values
     moji "⛳" { "Hello World!" }
@@ -69,13 +81,14 @@ module Golfmoji
     # arrays
     moji "🚜", a : Array { a.flatten }
     moji "➿", a : Array, b : Array {
-        p a
-        p b
-        5
-        #if a.size == 0 && b.size == 0
-        #    return Nil
-        #end
-        #[] of typeof(a[0]) || typeof(b[0])
+        if a.size == 0 && b.size == 0
+            return nil
+        end
+        #arr = [] of Array(Val)
+        #a.map {
+        #    [a.pop, b.pop]
+        #}
+        #arr # create memory leaks
     }
 
     # numbers
@@ -169,7 +182,7 @@ puts "Adding applicator #{function}"
 
     def self.exec(src)
         src.each { |chain|
-            exec_chain(chain)
+            Golfmoji.last_chain = exec_chain(chain)
         }
     end
 end
