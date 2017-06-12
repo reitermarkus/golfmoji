@@ -13,7 +13,7 @@ module Dyad
     def call(a, b); end
 end
 
-alias Val = Array(Array(Char)) | Array(Char) | Array(String) | Float64 | Int32 | String | Nil
+alias Val = Array(Array(Char)) | Array(Char) | Array(Float64) | Array(Int32) | Array(String) | Float64 | Int32 | String | Nil
 alias Function = Nilad | Monad | Dyad
 
 module Golfmoji
@@ -91,26 +91,31 @@ module Golfmoji
     }
 
     # numbers
-    moji "0️⃣" {  0.0 }
-    moji "1️⃣" {  1.0 }
-    moji "2️⃣" {  2.0 }
-    moji "3️⃣" {  3.0 }
-    moji "4️⃣" {  4.0 }
-    moji "5️⃣" {  5.0 }
-    moji "6️⃣" {  6.0 }
-    moji "7️⃣" {  7.0 }
-    moji "8️⃣" {  8.0 }
-    moji "9️⃣" {  9.0 }
-    moji "🔟" { 10.0 }
-#    moji "🔢", a : Number { (0..a).to_a }
-#    moji "🔛", a : Number, b : Number { (a..b).to_a }
+    moji "🁣" {  0.0 }
+    moji "🁤" {  1.0 }
+    moji "🁫" {  2.0 }
+    moji "🁬" {  3.0 }
+    moji "🁳" {  4.0 }
+    moji "🁴" {  5.0 }
+    moji "🁻" {  6.0 }
+    moji "🁼" {  7.0 }
+    moji "🂃" {  8.0 }
+    moji "🂄" {  9.0 }
+    moji "🂋" { 10.0 }
+    moji "🂌" { 11.0 }
+    moji "🂓" { 12.0 }
+    moji "⇢", a : Number { (0..a.to_i).to_a }
+    moji "→", a : Number, b : Number { (a.to_i..b.to_i).to_a }
 
     # comparing
     moji "⚖", a : Number, b : Number { a <=> b }
     moji "⚖", a : String, b : String { a <=> b }
-#    moji "⚖", a : Array(Number), b : Array(Number) {
-#        a.zip(b).map { |e| e[0] <=> e[1] }
-#    }
+    moji "⚖", a : Array(Int32), b : Array(Int32) {
+        a.zip(b).map { |e| e[0] <=> e[1] }
+    }
+    moji "⚖", a : Array(Float64), b : Array(Float64) {
+        a.zip(b).map { |e| e[0] <=> e[1] }
+    }
 
     # math
     moji "➕", a : Number, b : Number { a + b }
