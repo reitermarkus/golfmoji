@@ -69,12 +69,11 @@ module Golfmoji
 
     # values
     moji "⛳" { "Hello World!" }
-
     moji "🎲" { rand }
+    moji "🙊" { "" }
 
     # printing
     moji "💬", a : Object { print(a.to_s + "\n") }
-    moji "🙊" { "" }
 
     # strings
     moji "💥", a : String { a.chars }
@@ -104,16 +103,16 @@ module Golfmoji
     moji "🂋" { 10.0 }
     moji "🂌" { 11.0 }
     moji "🂓" { 12.0 }
-    moji "⇢", a : Number { (0..a.to_i).to_a }
-    moji "→", a : Number, b : Number { (a.to_i..b.to_i).to_a }
+    moji "⇢", a : Int { (0..a).to_a }
+    moji "→", a : Int, b : Int { (a..b).to_a }
 
     # comparing
     moji "⚖", a : Number, b : Number { a <=> b }
     moji "⚖", a : String, b : String { a <=> b }
-    moji "⚖", a : Array(Int32), b : Array(Int32) {
+    moji "⚖", a : Array(Int), b : Array(Int) {
         a.zip(b).map { |e| e[0] <=> e[1] }
     }
-    moji "⚖", a : Array(Float64), b : Array(Float64) {
+    moji "⚖", a : Array(Float), b : Array(Float) {
         a.zip(b).map { |e| e[0] <=> e[1] }
     }
 
