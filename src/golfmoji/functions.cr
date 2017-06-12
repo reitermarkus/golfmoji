@@ -13,7 +13,28 @@ module Dyad
     def call(a, b); end
 end
 
-alias Val = Array(Array(Char)) | Array(Char) | Array(Float64) | Array(Int32) | Array(String) | Float64 | Int32 | String | Nil
+alias Val = Array(Array(Char | Float64)) |
+    Array(Array(Char | Int32)) |
+    Array(Array(Char | String)) |
+    Array(Array(Char)) |
+    Array(Array(Float64 | Int32)) |
+    Array(Array(Float64 | String)) |
+    Array(Array(Float64)) |
+    Array(Array(Int32 | String)) |
+    Array(Array(Int32)) |
+    Array(Array(String)) |
+    Array(Char | Float64) |
+    Array(Char | Int32) |
+    Array(Char | String) |
+    Array(Char) |
+    Array(Float64 | Int32) |
+    Array(Float64 | String) |
+    Array(Float64) |
+    Array(Int32 | String) |
+    Array(Int32) |
+    Array(String) |
+    Tuple(String, String, String) |
+    Char | Float64 | Int32 | Regex | String | Nil
 alias Function = Nilad | Monad | Dyad
 
 module Golfmoji
@@ -76,16 +97,72 @@ module Golfmoji
     moji "💬", a : Object { print(a.to_s + "\n") }
 
     # strings
+    moji "😢", a : String { a.downcase }
+    moji "😀", a : String { a.upcase }
+    moji "🙃", a : String { a.reverse }
     moji "💥", a : String { a.chars }
     moji "✂", a : String, b : String { a.split(b) }
+    moji "✂", a : String, b : Regex { a.split(b) }
     moji "🖇", a : Array(String), b : String { a.join(b) }
+    moji "👓", a : String { /#{a}/ }
+#    moji "👓", a : String, b : String { a.partition(/#{b}/) } # causes invalid memory access
+    moji "➕", a : String, b : Number { a + b.to_s }
+    moji "✖", a : String, b : Int { a * b }
 
     # booleans
 #    moji "🚨", 
 
     # arrays
+    moji "👇", a : Array { a[0] }
+    moji "🖕", a : Array, b : Int { a[b] }
+    moji "🖕", a : Array, b : Range { a[b] }
     moji "🚜", a : Array { a.flatten }
+    moji "➿", a : Array(String), b : Array(String) {
+        (a.zip b).map &.to_a
+    }
     moji "➿", a : Array(Char), b : Array(Char) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Char), b : Array(String) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(String), b : Array(Char) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Int), b : Array(Int) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Float), b : Array(Float) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Int), b : Array(Float) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Float), b : Array(Int) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Int), b : Array(String) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(String), b : Array(Int) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Int), b : Array(Char) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Char), b : Array(Int) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Float), b : Array(String) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(String), b : Array(Float) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Float), b : Array(Char) {
+        (a.zip b).map &.to_a
+    }
+    moji "➿", a : Array(Char), b : Array(Float) {
         (a.zip b).map &.to_a
     }
 
@@ -115,17 +192,28 @@ module Golfmoji
     moji "⚖", a : Array(Float), b : Array(Float) {
         a.zip(b).map { |e| e[0] <=> e[1] }
     }
+    moji "⚖", a : Array(Char), b : Array(Char) {
+        a.zip(b).map { |e| e[0] <=> e[1] }
+    }
 
     # math
+    moji "😢", a : Number { -a }
+    moji "😢", a : String { -a.to_f }
     moji "➕", a : Number, b : Number { a + b }
-    moji "➕", a : String, b : Number { a + b.to_s }
+    moji "➕", a : String, b : String { a.to_f + b.to_f }
     moji "➖", a : Number, b : Number { a - b }
+    moji "➖", a : String, b : String { a.to_f - b.to_f }
     moji "➗", a : Number, b : Number { a / b }
+    moji "➗", a : String, b : String { a.to_f / b.to_f }
     moji "✖", a : Number, b : Number { a * b }
-    moji "✖", a : String, b : Number { a * b.to_i }
+    moji "✖", a : String, b : String { a.to_f * b.to_f }
     moji "✔", a : Number { Math.sqrt(a) }
+    moji "✔", a : String { Math.sqrt(a.to_f) }
     moji "✔", a : Array(Number) {
         a.map { |e| Math.sqrt(e) }
+    }
+    moji "✔", a : Array(String) {
+        a.map { |e| Math.sqrt(e.to_f) }
     }
 
     def self.function(moji)
