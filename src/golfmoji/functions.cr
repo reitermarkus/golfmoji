@@ -183,5 +183,6 @@ puts "Adding applicator #{function}"
         src.each { |chain|
             Golfmoji.last_chain = exec_chain(chain)
         }
+        Golfmoji.last_chain
     end
 end
