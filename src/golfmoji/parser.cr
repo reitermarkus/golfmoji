@@ -18,7 +18,7 @@ module Golfmoji
             end
 
             # if readable, read full source-code and return a list of all mojis given by the file
-            mojicode = File.read(mojifilepath).rstrip.chars
+            mojicode = File.read(mojifilepath).rstrip
 
             return mojicode
 
@@ -31,7 +31,7 @@ module Golfmoji
 
             # if some valid input is given, split it
             if mojiinput
-                mojicode = mojiinput.rstrip.chars
+                mojicode = mojiinput.rstrip
                 return mojicode
             else
                 return nil
@@ -40,6 +40,13 @@ module Golfmoji
 
     end
 
-
+    def self.parse
+        src = load_source
+        if src
+            chains = src.split("⛓").map(&.chars.map(&.to_s))
+        else
+            [["⛳"]]
+        end
+    end
 
 end

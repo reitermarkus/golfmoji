@@ -13,7 +13,7 @@ module Dyad
     def call(a, b); end
 end
 
-alias Val = Array(Char) | Array(String) | Float64 | Int32 | Char | String | Nil
+alias Val = Array(Array(Char)) | Array(Char) | Array(String) | Float64 | Int32 | String | Nil
 alias Function = Nilad | Monad | Dyad
 
 module Golfmoji
@@ -21,7 +21,7 @@ module Golfmoji
     FUNCTIONS = {} of String => Function
 
     @@last_chain : Val
-    @@last_chain = nil
+    @@last_chain = 0
 
     def self.last_chain
         @@last_chain
@@ -53,6 +53,12 @@ module Golfmoji
             def moji
                 {{name}}
             end
+            def inspect(io)
+                io << self.to_s(io)
+            end
+            def to_s(io)
+                io << "{{name.id}}"
+            end
         end
 
         FUNCTIONS[{{name}}] = Emoji_{{name.id}}.new.as(Function)
@@ -80,15 +86,8 @@ module Golfmoji
 
     # arrays
     moji "🚜", a : Array { a.flatten }
-    moji "➿", a : Array, b : Array {
-        if a.size == 0 && b.size == 0
-            return nil
-        end
-        #arr = [] of Array(Val)
-        #a.map {
-        #    [a.pop, b.pop]
-        #}
-        #arr # create memory leaks
+    moji "➿", a : Array(Char), b : Array(Char) {
+        (a.zip b).map &.to_a
     }
 
     # numbers
@@ -156,12 +155,12 @@ puts "Temp value: " + tmp.inspect
                 value = tmp
 
             when 1
-
+puts "Applying #{function} with #{value}."
                 tmp = function.as(Monad).call(value)
 puts "Temp value: " + tmp.inspect
                 until applicators.empty?
                     app = applicators.pop
-puts "Applying #{app}."
+puts "Applying #{app} with #{value} and #{tmp}."
                     tmp = app.call(value, tmp)
 puts "Temp value: " + tmp.inspect
                 end
