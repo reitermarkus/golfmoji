@@ -27,7 +27,7 @@ module Golfmoji
 
             # input file-content
             print "Please enter some mojicode: (empty line for finishing code-input)\n"
-            mojiinput = STDIN.gets("\n\n");
+            mojiinput = STDIN.gets("\n\n")
 
             # if some valid input is given, split it
             if mojiinput
