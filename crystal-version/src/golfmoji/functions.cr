@@ -13,35 +13,14 @@ module Dyad
     def call(a, b); end
 end
 
-alias Val = Array(Array(Char | Float64)) |
-    Array(Array(Char | Int32)) |
-    Array(Array(Char | String)) |
-    Array(Array(Char)) |
-    Array(Array(Float64 | Int32)) |
-    Array(Array(Float64 | String)) |
-    Array(Array(Float64)) |
-    Array(Array(Int32 | String)) |
-    Array(Array(Int32)) |
-    Array(Array(String)) |
-    Array(Char | Float64) |
-    Array(Char | Int32) |
-    Array(Char | String) |
-    Array(Char) |
-    Array(Float64 | Int32) |
-    Array(Float64 | String) |
-    Array(Float64) |
-    Array(Int32 | String) |
-    Array(Int32) |
-    Array(String) |
-    Tuple(String, String, String) |
-    Char | Float64 | Int32 | Regex | String | Nil
-alias Function = Nilad | Monad | Dyad
-
 module Golfmoji
+
+    alias Typ = Nil | Int32 | Float64 | Char | String | Regex | Array(Typ) | Hash(Typ, Typ) | Tuple(Typ)
+    alias Function = Nilad | Monad | Dyad
 
     FUNCTIONS = {} of String => Function
 
-    @@last_chain : Val
+    @@last_chain : Golfmoji::Typ
     @@last_chain = 0
 
     def self.last_chain

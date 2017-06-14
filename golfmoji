@@ -1,1 +1,3 @@
-src/golfmoji.cr
+#!/bin/bash
+
+ruby golfmoji.rb
