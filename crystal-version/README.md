@@ -13,7 +13,8 @@ We are still planning, how we want to structure the language itself and how it w
 We also try to implement some common golf-problems.
 
 ## What is planned for the future?
-First we want to implement a working golfmoji-interpreter, which will be written entirely in Crystal.
+First we want to implement a working golfmoji-interpreter, which will be written in ruby.
+We also plan to create a crystal-port if possible.
 
 ## Why we (will) talk about "bytes" at code-golf?
 
