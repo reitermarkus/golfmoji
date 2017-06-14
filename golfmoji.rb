@@ -28,7 +28,7 @@ module Golfmoji
 	add_function("©", ->(s) { s.put s.peek })
 	add_function("🎗", ->(s) { s.put s.pop.zip(s.pop) })
 
-	["⛳", "💥", "📝", "🎗"].each do |f|
+	["⛳", "💥", "©", "🎗"].each do |f|
 		exec(f)
 	end
 
