@@ -1,3 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env ruby
 
-ruby emolator.rb $@
+require_relative 'lib/emolator'
+
+

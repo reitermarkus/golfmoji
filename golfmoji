@@ -1,3 +1,53 @@
-#!/bin/bash
+#!/usr/bin/env ruby
 
-ruby golfmoji.rb $@
+require_relative 'lib/golfmoji'
+
+module Golfmoji
+  ['⛳', '💥', '©', "\u{1F397}"].each do |f|
+    exec(f)
+  end
+  p 'result:'
+  p peek
+
+  ['⛳', '💥', "'", '📦', '🙊', '🔗'].each do |f|
+    exec(f)
+  end
+  p 'result:'
+  p peek
+
+  ['⛳', ' ', '✂', '-', '🔗'].each do |f|
+    exec(f)
+  end
+  p 'result:'
+  p peek
+
+  ['⛳', ' ', '✂', '⛳', '✏'].each do |f|
+    exec(f)
+  end
+  p 'result:'
+  p peek
+
+  # https://codegolf.stackexchange.com/questions/126410/sugar-free-syntax
+  reset(['abc']) # = input
+  ['💥', "'", '📦', '[]', "\u{1F587}", ':', '🔗'].each do |f|
+    exec(f)
+  end
+  p 'result:'
+  p peek
+
+  # https://codegolf.stackexchange.com/questions/126373/am-i-a-fibonacci-number
+  reset(['4']) # = input
+  ['🔎'].each do |f|
+    exec(f)
+  end
+  p 'result:'
+  p peek
+
+  # https://codegolf.stackexchange.com/questions/126159/group-a-list-by-frequency
+  reset(['[1,1,1,4,5,6,6,6,7,7,8,8,8,8,8,8,8,9,5,6,5,6,5,6,5,6,-56]'])
+  ['📃', '🚬'].each do |f|
+    exec(f)
+  end
+  p 'result:'
+  p peek
+end
