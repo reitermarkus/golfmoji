@@ -24,8 +24,5 @@ if input_file == STDIN && input_file.tty?
   exit 1
 end
 
-input = input_file.read.strip
-instructions = Unicode.text_elements(input)
-
-print Golfmoji::Executor.new(instructions, ARGV).execute
+print Golfmoji::Executor.new(Golfmoji::Parser.parse(input_file.read), ARGV).execute
 print "\n"
