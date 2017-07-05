@@ -157,9 +157,9 @@ module Golfmoji
     val = s.pop
     if val.is_a?(Array)
       v = 0
-      val.each { |e|
+      val.each do |e|
         v += e
-      }
+      end
       s.push v
     else
       val2 = s.pop
