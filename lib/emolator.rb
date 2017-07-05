@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OS
   def self.windows?
     (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil

@@ -1,4 +1,5 @@
 /doc/
 /bin/
-!/bin/golfmoji
 /.bundle/
+!/bin/golfmoji
+!/bin/emolator

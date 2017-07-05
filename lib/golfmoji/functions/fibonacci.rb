@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def fib(n)
   # if n == 0
   #	[0]
