@@ -7,8 +7,13 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Enabled: false
 
+Style/BlockDelimiters:
+  EnforcedStyle: semantic
+  FunctionalMethods:
+    - new
+
 Style/Documentation:
   Enabled: false
 
-Style/BlockDelimiters:
-  EnforcedStyle: semantic
+Style/SymbolArray:
+  Enabled: false
