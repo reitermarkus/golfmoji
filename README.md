@@ -1,4 +1,4 @@
-# ⛳️ golfmoji
+# ⛳️ golfmoji [![Build Status](https://travis-ci.org/reitermarkus/golfmoji.svg?branch=master)](https://travis-ci.org/reitermarkus/golfmoji)
 
 golfmoji is a new esoteric golfing language, which is currently heavily under development. The source-code contains ONLY emojis. Each emoji will be interpreted as a function or operation or stuff like that.
 
@@ -22,7 +22,7 @@ We will only allow **256** *(= 2^8)* emojis.
 Therefore we can simply create a emoji-code-table:
 
 ## Commit-Conventions
-Of course, each commit-message *should* contain at least one emoji. 
+Of course, each commit-message *should* contain at least one emoji.
 
 Here are the most important guide-lines, which emoji you could use for each commit-type:
 
