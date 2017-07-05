@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require 'delegate'
+require 'golfmoji/functions/fibonacci'
+
+require 'json'
 
 module Golfmoji
   @functions = {}
@@ -17,64 +19,64 @@ module Golfmoji
   # swap last 2 values in stack
   moji '🔀', lambda { |s|
     v1, v2 = s.pop(2)
-    s.put v2
-    s.put v1
+    s.push v2
+    s.push v1
   }
 
   # print value
-  moji '💬', ->(s) { p s.peek }
+  moji '💬', ->(s) { p s.top }
 
   # put lowercase alphabeth
   moji '🔡', lambda { |s|
-    s.put 'abcdefghijklmnopqrstuvwxyz'
+    s.push 'abcdefghijklmnopqrstuvwxyz'
   }
 
   # put uppercase alphabeth
   moji '🔠', lambda { |s|
-    s.put 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    s.push 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   }
 
   # put "Hello World!"
   # -> "Hello World!"
-  moji '⛳', ->(s) { s.put 'Hello World!' }
+  moji '⛳', ->(s) { s.push 'Hello World!' }
 
   # put ""
   # -> ""
-  moji '🙊', ->(s) { s.put '' }
+  moji '🙊', ->(s) { s.push '' }
 
   # split string into an array of characters
   # "abc" -> ["a", "b", "c"]
-  moji '💥', ->(s) { s.put s.pop.chars }
+  moji '💥', ->(s) { s.push s.pop.chars }
 
   # get array from string-array
   # "[1, 2, 3]" -> [1, 2, 3]
   moji '📃', lambda { |s|
-    s.put JSON.parse s.pop
+    s.push JSON.parse(s.pop)
   }
 
   # reverse array
   # [1, 2, 3] -> [3, 2, 1]
   moji '↩', lambda { |s|
-    s.put s.pop.reverse
+    s.push s.pop.reverse
   }
 
   # split string with string
   # "a, b, c", ", " -> ["a", "b", "c"]
   moji '✂', lambda { |s|
     val, sep = s.pop(2)
-    s.put val.split(sep)
+    s.push val.split(sep)
   }
 
   # put first n characters of string
   moji '➡', lambda { |s|
     str, n = s.pop(2)
-    s.put str[0...n.to_i]
+    s.push str[0...n.to_i]
   }
 
   # put last n characters of string
   moji '⬅', lambda { |s|
     str, n = s.pop(2)
-    s.put str.reverse[0...n.to_i].reverse
+    s.push str.reverse[0...n.to_i].reverse
   }
 
   # concatenate string (or array of strings) with string
@@ -83,11 +85,11 @@ module Golfmoji
   moji '✏', lambda { |s|
     val, str = s.pop(2)
     if val.is_a?(Array)
-      s.put(val.map { |e|
+      s.push(val.map { |e|
         e + str
       })
     else
-      s.put val + str
+      s.push val + str
     end
   }
 
@@ -104,26 +106,26 @@ module Golfmoji
   # ["a", "b", "c"], "" -> "abc"
   moji '🔗', lambda { |s|
     val, sep = s.pop(2)
-    s.put val.join(sep)
+    s.push val.join(sep)
   }
 
   # copy current value at stack-head
-  moji '©', ->(s) { s.put s.peek }
+  moji '©', ->(s) { s.push s.top }
 
   # append to array top value
   # [1, 2, 3], "3" -> [1, 2, 3, "3"]
   moji '🖇', lambda { |s|
     arr, val = s.pop(2)
-    s.put arr << val
+    s.push arr << val
   }
 
   # zip each element of two arrays
   # ["a", "b", "c"], [1, 2, 3] -> [["a", 1], ["b", 2], ["c", 3]]
-  moji '🎗', ->(s) { s.put s.pop.zip(s.pop) }
+  moji '🎗', ->(s) { s.push s.pop.zip(s.pop) }
 
   # flatten an array
   # [[1, 2], ["a", "b"]] -> [1, 2, "a", "b"]
-  moji '🚜', ->(s) { s.put s.pop.flatten }
+  moji '🚜', ->(s) { s.push s.pop.flatten }
 
   # surround string with string
   # "abc", "'" -> "'abc'"
@@ -131,11 +133,11 @@ module Golfmoji
   moji '📦', lambda { |s|
     val, sep = s.pop(2)
     if val.is_a?(Array)
-      s.put(val.map { |e|
+      s.push(val.map { |e|
         sep + e + sep
       })
     else
-      s.put sep + val + sep
+      s.push sep + val + sep
     end
   }
 
@@ -145,45 +147,42 @@ module Golfmoji
   moji '➕', lambda { |s|
     val = s.pop
     if val.is_a?(Array)
-      s.put val.sum
+      s.push val.sum
     else
       val2 = s.pop
-      s.put val + val2
+      s.push val + val2
     end
   }
 
   # n first fibonacci-values
   # 5 -> [0, 1, 1, 2, 3]
   moji '🐢', lambda { |s|
-    s.put fib(s.pop.to_i - 1)
+    s.push fib(s.pop.to_i - 1)
   }
 
   # check if given value is a fibonnaci-value
   # 5 -> true
   # 9 -> false
   moji '🔎', lambda { |s|
-    s.put isfib(s.pop.to_i)
+    s.push isfib(s.pop.to_i)
   }
 
   # group objects by occurances
   # [1, 1, 2, 3, 3, 3, 4] -> [[2, 4], [1], [3]]
   moji '🚬', lambda { |s|
-    a = s.pop
-    cnts = Hash.new 0
-    a.each do |e|
-      cnts[e] += 1
+    counts = Hash.new(0)
+
+    s.pop.each do |e|
+      counts[e] += 1
     end
-    occs = {}
-    cnts.to_a.each do |e|
-      if occs[e[1]]
-        occs[e[1]] << e[0]
-      else
-        occs[e[1]] = [e[0]]
-      end
+
+    occurences = {}
+
+    counts.each do |k, v|
+      occurences[v] ||= []
+      occurences[v] << k
     end
-    arr = occs.sort.map { |e|
-      p e[1]
-    }
-    s.put arr
+
+    s.push Hash[occurences.sort].values
   }
 end

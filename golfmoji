@@ -3,51 +3,27 @@
 require_relative 'lib/golfmoji'
 
 module Golfmoji
-  ['⛳', '💥', '©', '🎗'].each do |f|
-    exec(f)
-  end
   p 'result:'
-  p peek
+  p Executor.new(['⛳', '💥', '©', '🎗'], ARGV).execute
 
-  ['⛳', '💥', "'", '📦', '🙊', '🔗'].each do |f|
-    exec(f)
-  end
   p 'result:'
-  p peek
+  p Executor.new(['⛳', '💥', "'", '📦', '🙊', '🔗'], ARGV).execute
 
-  ['⛳', ' ', '✂', '-', '🔗'].each do |f|
-    exec(f)
-  end
   p 'result:'
-  p peek
+  p Executor.new(['⛳', ' ', '✂', '-', '🔗'], ARGV).execute
 
-  ['⛳', ' ', '✂', '⛳', '✏'].each do |f|
-    exec(f)
-  end
   p 'result:'
-  p peek
+  p Executor.new(['⛳', ' ', '✂', '⛳', '✏'], ARGV).execute
 
   # https://codegolf.stackexchange.com/questions/126410/sugar-free-syntax
-  reset(['abc']) # = input
-  ['💥', "'", '📦', '[]', '🖇', ':', '🔗'].each do |f|
-    exec(f)
-  end
   p 'result:'
-  p peek
+  p Executor.new(['💥', "'", '📦', '[]', '🖇', ':', '🔗'], ['abc']).execute
 
   # https://codegolf.stackexchange.com/questions/126373/am-i-a-fibonacci-number
-  reset(['4']) # = input
-  ['🔎'].each do |f|
-    exec(f)
-  end
   p 'result:'
-  p peek
+  p Executor.new(['🔎'], ['4']).execute
 
   # https://codegolf.stackexchange.com/questions/126159/group-a-list-by-frequency
-  reset(['[1,1,1,4,5,6,6,6,7,7,8,8,8,8,8,8,8,9,5,6,5,6,5,6,5,6,-56]'])
-  ['📃', '🚬'].each do |f|
-    exec(f)
-  end
   p 'result:'
-  p peek
+  p Executor.new(['📃', '🚬'], ['[1,1,1,4,5,6,6,6,7,7,8,8,8,8,8,8,8,9,5,6,5,6,5,6,5,6,-56]']).execute
 end
