@@ -67,6 +67,12 @@ module Golfmoji
     s.push val.split(sep)
   }
 
+  # get length of array (doesn't remove the array!)
+  # [5, 8, "abc"] -> 3
+  moji '🗜', lambda { |s|
+    s.push s.last.length
+  }
+
   # put first n characters of string
   moji '➡', lambda { |s|
     str, n = s.pop(2)
@@ -150,10 +156,44 @@ module Golfmoji
   moji '➕', lambda { |s|
     val = s.pop
     if val.is_a?(Array)
-      s.push val.sum
+      v = 0
+      val.each { |e|
+        v += e
+      }
+      s.push v
     else
       val2 = s.pop
       s.push val + val2
+    end
+  }
+
+  # multiply values
+  # 2, 4 -> 8
+  # [2, 4, 2] -> 16
+  moji '✖️', lambda { |s|
+    val, val2 = s.pop(2)
+    if val.is_a?(Array)
+      val = val.map { |e|
+        e * val2
+      }
+      s.push val
+    else
+      s.push val * val2
+    end
+  }
+
+  # divide values
+  # 5, 2 -> 2.5
+  # [10, 2, 5], 2 -> [5, 1, 2.5]
+  moji '➗', lambda { |s|
+    val, val2 = s.pop(2)
+    if val.is_a?(Array)
+      val = val.map { |e|
+        e / val2.to_f
+      }
+      s.push val
+    else
+      s.push val / val2
     end
   }
 
