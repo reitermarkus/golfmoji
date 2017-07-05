@@ -245,9 +245,9 @@ module Golfmoji
         occs[e[1]] = [e[0]]
       end
     end
-    arr = occs.sort.map do |e|
+    arr = occs.sort.map { |e|
       p e[1]
-    end
+    }
     s.put arr
   })
 end

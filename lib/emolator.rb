@@ -55,12 +55,15 @@ else
   src = STDIN.gets("\n\n").rstrip.split("\n")
 end
 
-src = src.map do |i|
+src = src.map { |i|
   funcs[i]
-end
+}
 
 if OS.mac?
-  IO.popen('pbcopy', 'w') { |f| f << src.join }
+  IO.popen('pbcopy', 'w') do |f|
+    f << src.join
+  end
+
   puts 'Info:'
   puts 'The source-code has been copied to your clip-board!'
   puts 'You may paste it into a new file or post it on a website.'
