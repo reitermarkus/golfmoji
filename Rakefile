@@ -15,7 +15,10 @@ RSpec::Core::RakeTask.new(:rspec) { |t|
 
 require 'rubocop/rake_task'
 RuboCop::RakeTask.new(:rubocop) { |t|
-  t.options = ['--display-cop-names']
+  t.options = [
+    '--display-cop-names',
+    '--extra-details'
+  ]
 }
 
 task default: [:cucumber, :rspec, :rubocop]
