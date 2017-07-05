@@ -3,7 +3,7 @@
 require_relative 'lib/golfmoji'
 
 module Golfmoji
-  ['⛳', '💥', '©', "\u{1F397}"].each do |f|
+  ['⛳', '💥', '©', '🎗'].each do |f|
     exec(f)
   end
   p 'result:'
@@ -29,7 +29,7 @@ module Golfmoji
 
   # https://codegolf.stackexchange.com/questions/126410/sugar-free-syntax
   reset(['abc']) # = input
-  ['💥', "'", '📦', '[]', "\u{1F587}", ':', '🔗'].each do |f|
+  ['💥', "'", '📦', '[]', '🖇', ':', '🔗'].each do |f|
     exec(f)
   end
   p 'result:'

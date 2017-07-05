@@ -180,14 +180,14 @@ module Golfmoji
 
   # append to array top value
   # [1, 2, 3], "3" -> [1, 2, 3, "3"]
-  add_function("\u{1F587}", lambda { |s|
+  add_function('🖇', lambda { |s|
     arr, val = s.pop(2)
     s.put arr << val
   })
 
   # zip each element of two arrays
   # ["a", "b", "c"], [1, 2, 3] -> [["a", 1], ["b", 2], ["c", 3]]
-  add_function("\u{1F397}", ->(s) { s.put s.pop.zip(s.pop) })
+  add_function('🎗', ->(s) { s.put s.pop.zip(s.pop) })
 
   # flatten an array
   # [[1, 2], ["a", "b"]] -> [1, 2, "a", "b"]
