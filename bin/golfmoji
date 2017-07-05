@@ -3,28 +3,29 @@
 
 require_relative '../lib/golfmoji'
 
-module Golfmoji
-  p 'result:'
-  p Executor.new(['⛳', '💥', '©', '🎗'], ARGV).execute
+require 'optparse'
+require 'unicode'
 
-  p 'result:'
-  p Executor.new(['⛳', '💥', "'", '📦', '🙊', '🔗'], ARGV).execute
+input_file = STDIN
 
-  p 'result:'
-  p Executor.new(['⛳', ' ', '✂', '-', '🔗'], ARGV).execute
-
-  p 'result:'
-  p Executor.new(['⛳', ' ', '✂', '⛳', '✏'], ARGV).execute
-
-  # https://codegolf.stackexchange.com/questions/126410/sugar-free-syntax
-  p 'result:'
-  p Executor.new(['💥', "'", '📦', '[]', '🖇', ':', '🔗'], ['abc']).execute
-
-  # https://codegolf.stackexchange.com/questions/126373/am-i-a-fibonacci-number
-  p 'result:'
-  p Executor.new(['🔎'], ['4']).execute
-
-  # https://codegolf.stackexchange.com/questions/126159/group-a-list-by-frequency
-  p 'result:'
-  p Executor.new(['📃', '🚬'], ['[1,1,1,4,5,6,6,6,7,7,8,8,8,8,8,8,8,9,5,6,5,6,5,6,5,6,-56]']).execute
+begin
+  OptionParser.new { |opts|
+    opts.on('-f FILE', 'Input file') do |f|
+      input_file = File.new(f, 'r:UTF-8')
+    end
+  }.parse!
+rescue => e
+  STDERR.puts e
+  exit 1
 end
+
+if input_file == STDIN && input_file.tty?
+  STDERR.puts 'Cannot read from standard input because it is a TTY.'
+  exit 1
+end
+
+input = input_file.read.strip
+instructions = Unicode.text_elements(input)
+
+print Golfmoji::Executor.new(instructions, ARGV).execute
+print "\n"

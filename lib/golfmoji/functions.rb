@@ -38,7 +38,7 @@ module Golfmoji
 
   # put "Hello World!"
   # -> "Hello World!"
-  moji '⛳', ->(s) { s.push 'Hello World!' }
+  moji '⛳️', ->(s) { s.push 'Hello world!' }
 
   # put ""
   # -> ""
@@ -101,11 +101,14 @@ module Golfmoji
     arr.include? val
   }
 
-  # join string with string
+  # join array (with optional separator)
   # ["a", "b", "c"], "," -> "a,b,c"
-  # ["a", "b", "c"], "" -> "abc"
+  # ["a", "b", "c"] -> "abc"
   moji '🔗', lambda { |s|
-    val, sep = s.pop(2)
+    popped = s.pop
+
+    val, sep = popped.respond_to?(:each) ? [popped, ''] : [s.pop, popped]
+
     s.push val.join(sep)
   }
 

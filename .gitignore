@@ -1,5 +1,6 @@
+/.bundle/
 /doc/
 /bin/
-/.bundle/
+/tmp/
 !/bin/golfmoji
 !/bin/emolator
