@@ -70,7 +70,7 @@ module Golfmoji
   # get length of array (doesn't remove the array!)
   # [5, 8, "abc"] -> 3
   moji '🗜', lambda { |s|
-    s.push s.last.length
+    s.push s.top.length
   }
 
   # put first n characters of string

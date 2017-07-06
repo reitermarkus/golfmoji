@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
-require 'delegate'
+require 'forwardable'
 
 module Golfmoji
-  class Stack < DelegateClass(Array)
+  class Stack
+    extend Forwardable
+
     def initialize(*args)
-      super(Array.new(*args))
+      @stack = Array(*args)
     end
 
-    alias top last
+    def_delegator :@stack, :push
+    def_delegator :@stack, :pop
+    def_delegator :@stack, :last, :top
   end
 end
