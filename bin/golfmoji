@@ -6,12 +6,12 @@ require_relative '../lib/golfmoji'
 require 'optparse'
 require 'unicode'
 
-input_file = STDIN
+input = STDIN
 
 begin
   OptionParser.new { |opts|
     opts.on('-f FILE', 'Input file') do |f|
-      input_file = File.new(f, 'r:UTF-8')
+      input = File.new(f, 'r:UTF-8')
     end
   }.parse!
 rescue => e
@@ -19,10 +19,10 @@ rescue => e
   exit 1
 end
 
-if input_file == STDIN && input_file.tty?
+if input == STDIN && input.tty?
   STDERR.puts 'Cannot read from standard input because it is a TTY.'
   exit 1
 end
 
-print Golfmoji::Executor.new(Golfmoji::Parser.parse(input_file.read), ARGV).execute
+print Golfmoji::Executor.new(Golfmoji::Parser.parse(input.read), ARGV).execute
 print "\n"
