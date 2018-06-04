@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'golfmoji/functions/fibonacci'
+require 'golfmoji/functions/math'
 
 require 'json'
 
@@ -23,6 +23,17 @@ module Golfmoji
     s.push v1
   }
 
+  # right-roll the stack
+  moji '⏩', lambda { |s|
+    v = s.pop
+    s.reverse
+    s.push v
+    s.reverse
+  }
+
+  # reverse the stack
+  moji '🔄', -> (s) { s.reverse }
+
   # print value
   moji '💬', ->(s) { p s.top }
 
@@ -44,6 +55,10 @@ module Golfmoji
   # -> ""
   moji '🙊', ->(s) { s.push '' }
 
+  # put " "
+  # -> " "
+  moji '🕸', ->(s) { s.push ' ' }
+
   # split string into an array of characters
   # "abc" -> ["a", "b", "c"]
   moji '💥', ->(s) { s.push s.pop.chars }
@@ -61,10 +76,22 @@ module Golfmoji
   }
 
   # split string with string
-  # "a, b, c", ", " -> ["a", "b", "c"]
+  # "a b c", " " -> ["a", "b", "c"]
   moji '✂', lambda { |s|
     val, sep = s.pop(2)
     s.push val.split(sep)
+  }
+
+  # get ordinal value of char array or string
+  # or get character of ordinal value
+  moji '💱', lambda { |s|
+    val = s.pop
+
+    if val.is_a?(String)
+      s.push(val.split('').map { |e| e.ord })
+    else
+      s.push(val.map { |e| e.chr })
+    end
   }
 
   # get length of array (doesn't remove the array!)
@@ -99,6 +126,22 @@ module Golfmoji
     end
   }
 
+  # check for uppercase
+  # "Test" -> [true, false, false, false]
+  moji '🔼', lambda { |s|
+    s.push(s.top.split('').map { |e| e >= 'A' && e <= 'Z' })
+  }
+
+  # change upper/lower case
+  moji '⏫', lambda { |s|
+    val, val2 = s.pop(2)
+
+    v = val.downcase
+    val.length.times { |i| v[i] = val[i].upcase if val2[i] }
+
+    s.push(v)
+  }
+
   # check if value in list
   # [1, 2, 3], 2 -> true
   # [1, 2, 3], 5 -> false
@@ -111,11 +154,11 @@ module Golfmoji
   # ["a", "b", "c"], "," -> "a,b,c"
   # ["a", "b", "c"] -> "abc"
   moji '🔗', lambda { |s|
-    popped = s.pop
+    val = s.pop
 
-    val, sep = popped.respond_to?(:each) ? [popped, ''] : [s.pop, popped]
+    vals, sep = vals.respond_to?(:each) ? [val, ''] : [s.pop, val]
 
-    s.push val.join(sep)
+    s.push vals.join(sep)
   }
 
   # copy current value at stack-head
@@ -194,6 +237,20 @@ module Golfmoji
       s.push val
     else
       s.push val / val2
+    end
+  }
+
+  # xor values
+  # "abc", 32 -> []
+  moji '😵', lambda { |s|
+    a, b = s.pop(2)
+
+    b = b.to_i
+
+    if a.respond_to?(:each)
+      s.push(a.map { |e| e ^ b })
+    else
+      s.push(a ^ b)
     end
   }
 

@@ -20,7 +20,7 @@ module Golfmoji
                 .call(stack)
       end
 
-      result
+      stack.top(stack.size).join(' ')
     end
 
     private

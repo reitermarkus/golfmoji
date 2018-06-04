@@ -1,14 +1,12 @@
-# frozen_string_literal: true
-
 def fib(n)
   # if n == 0
-  #	[0]
+  # [0]
   # elsif n == 1
-  #	[0, 1]
+  # [0, 1]
   # else
-  #	f = fib(n - 1)
-  #	e = f[(f.size - 2)...f.size]
-  #	f << (e[0] + e[1])
+  # f = fib(n - 1)
+  # e = f[(f.size - 2)...f.size]
+  # f << (e[0] + e[1])
   # end
   if n.zero?
     [0]
