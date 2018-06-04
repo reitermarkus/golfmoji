@@ -156,7 +156,7 @@ module Golfmoji
   moji '🔗', lambda { |s|
     val = s.pop
 
-    vals, sep = vals.respond_to?(:each) ? [val, ''] : [s.pop, val]
+    vals, sep = val.respond_to?(:each) ? [val, ''] : [s.pop, val]
 
     s.push vals.join(sep)
   }
