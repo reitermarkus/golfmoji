@@ -10,8 +10,8 @@ module Golfmoji
       @stack = Array(*args)
     end
 
-    def reverse()
-        @stack = @stack.reverse
+    def reverse
+      @stack = @stack.reverse
     end
 
     def_delegator :@stack, :push

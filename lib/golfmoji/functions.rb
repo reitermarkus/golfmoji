@@ -32,7 +32,7 @@ module Golfmoji
   }
 
   # reverse the stack
-  moji '🔄', -> (s) { s.reverse }
+  moji '🔄', ->(s) { s.reverse }
 
   # print value
   moji '💬', ->(s) { p s.top }
@@ -88,9 +88,9 @@ module Golfmoji
     val = s.pop
 
     if val.is_a?(String)
-      s.push(val.split('').map { |e| e.ord })
+      s.push(val.split('').map &:ord)
     else
-      s.push(val.map { |e| e.chr })
+      s.push(val.map &:chr)
     end
   }
 
@@ -137,7 +137,9 @@ module Golfmoji
     val, val2 = s.pop(2)
 
     v = val.downcase
-    val.length.times { |i| v[i] = val[i].upcase if val2[i] }
+    val.length.times do |i|
+      v[i] = val[i].upcase if val2[i]
+    end
 
     s.push(v)
   }
