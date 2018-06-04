@@ -4,7 +4,7 @@ Feature: Exchange capitalization
   Background:
     Given a file named "exchange-capitalization.⛳️" with:
       """golfmoji
-      🔼🔄🔼⏩🔀⏩🔀⏫⏩⏫
+      🔼🔄🔼⏩🔀⏩🔀⏫⏩⏫📦🕸🔗
       """
 
   Scenario: Output is correct.

@@ -182,7 +182,7 @@ module Golfmoji
   # surround string with string
   # "abc", "'" -> "'abc'"
   # ["a", "b", "c"] -> ["'a'", "'b'", "'c'"]
-  moji '📦', lambda { |s|
+  moji '✉️', lambda { |s|
     val, sep = s.pop(2)
     if val.is_a?(Array)
       s.push(val.map { |e|
@@ -191,6 +191,11 @@ module Golfmoji
     else
       s.push sep + val + sep
     end
+  }
+
+  # collect all data in the stack and store it as one array-element holding the data
+  moji '📦', lambda { |s|
+    s.push(s.top(s.size))
   }
 
   # sum values

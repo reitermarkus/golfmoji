@@ -2,7 +2,7 @@ Feature: Surround strings with string and join them.
   Background:
     Given a file named "surround-string-join.⛳️" with:
       """golfmoji
-      ⛳️💥'📦🔗
+      ⛳️💥'✉️🔗
       """
 
   Scenario: Output is correct.
