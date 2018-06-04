@@ -88,9 +88,9 @@ module Golfmoji
     val = s.pop
 
     if val.is_a?(String)
-      s.push(val.split('').map &:ord)
+      s.push(val.split('').map(&:ord))
     else
-      s.push(val.map &:chr)
+      s.push(val.map(&:chr))
     end
   }
 
