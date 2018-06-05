@@ -37,6 +37,17 @@ module Golfmoji
   # print value
   moji '💬', ->(s) { p s.top }
 
+  moji '0️⃣', ->(s) { s.push(0) }
+  moji '1️⃣', ->(s) { s.push(1) }
+  moji '2️⃣', ->(s) { s.push(2) }
+  moji '3️⃣', ->(s) { s.push(3) }
+  moji '4️⃣', ->(s) { s.push(4) }
+  moji '5️⃣', ->(s) { s.push(5) }
+  moji '6️⃣', ->(s) { s.push(6) }
+  moji '7️⃣', ->(s) { s.push(7) }
+  moji '8️⃣', ->(s) { s.push(8) }
+  moji '9️⃣', ->(s) { s.push(9) }
+
   # put lowercase alphabeth
   moji '🔡', lambda { |s|
     s.push 'abcdefghijklmnopqrstuvwxyz'
