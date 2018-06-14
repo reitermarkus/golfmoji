@@ -30,3 +30,7 @@ Style/AsciiComments:
 # Required for some cases
 Style/PerlBackrefs:
   Enabled: false
+
+# We like symbols
+Style/HashSyntax:
+  Enabled: false

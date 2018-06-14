@@ -87,11 +87,11 @@ module Golfmoji
           puts '- Enter any command found from the list. If it works, the stack gets updated! 🎉'
           puts '- Enter "exit" to quit the em😮lator. This will print this resulting mojis and the final stack. 🚪'
           puts '  If supported, the em😮lator will copy the mojis to your 📋. Neat! 🕺'
-          puts '- Enter "back" to jump back to the previous stack-state. ♻️ So handy ☺️'
+          puts '- Enter "back" to jump back to the previous stack-state. ♻️ So handy 😀'
         when /^help ?(.*)/
           puts 'Available commands: 📜'
           s = $1
-          p Golfmoji.aliases.keys.sort.select({ |e| /.*#{s}.*/ =~ e })
+          p(Golfmoji.aliases.keys.sort.select { |e| /.*#{s}.*/ =~ e })
         when 'exit'
           break
         else
@@ -124,9 +124,9 @@ module Golfmoji
 end
 
 s = '👉👇👈👆'
-16.times do |i|
-  print("\r" + s[i % 4])
-  sleep 0.2
+8.times do |i|
+  print("\rLoading the em😮lator " + s[i % 4])
+  sleep 0.15
 end
 puts
 
