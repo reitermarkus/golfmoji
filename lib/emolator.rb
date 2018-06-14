@@ -26,108 +26,98 @@ end
 module Golfmoji
   class Emolator
     def initialize
-      @stack = Golfmoji::Stack.new([])
+      @stack = Golfmoji::Stack.new(ARGV)
 
       @history = []
 
       @commands = []
-
-      @funcs = {
-        '0' => '0️⃣',
-        '1' => '1️⃣',
-        '2' => '2️⃣',
-        '3' => '3️⃣',
-        '4' => '4️⃣',
-        '5' => '5️⃣',
-        '6' => '6️⃣',
-        '7' => '7️⃣',
-        '8' => '8️⃣',
-        '9' => '9️⃣',
-        '+' => '➕',
-        'plus' => '➕',
-        '-' => '➖',
-        'minus' => '➖',
-        'sum' => '➕',
-        '*' => '✖️',
-        'mul' => '✖️',
-        '/' => '➗',
-        'div' => '➗',
-        'empty' => '🙊'
-      }
     end
 
     def read
       STDIN.gets("\n").rstrip
     end
 
-    def start
-      p @stack
+    def back
+      # reset to the newest backup stack
+      @stack = @history.pop
 
-      cmd = ''
-      until cmd == 'exit' do
-        cmd = read
+      # remove the last command from the command history
+      @commands.pop
+    end
 
-        if cmd == 'back' then
-          @stack = @history.pop.clone
-          @commands.pop
-
-          p @stack
-          p @history
-          next
-        end
-
-        func = Golfmoji.functions[@funcs[cmd]]
-        unless func then
-          p cmd
-          break
-        end
-
-        @history.push(@stack.clone)
-
-        func.call(@stack)
-
-        @commands.push(@funcs[cmd])
-
-        p @stack
-        p @history
+    def call(cmd)
+      func = Golfmoji.aliases.dig(cmd, :func)
+      unless func then
+        puts 'ERROR: Command "' + cmd + '" not found!'
+        return
       end
 
-      p @stack
-      p @history
-      p @commands.join
+      @history.push(@stack.clone)
+
+      begin
+        # try to execute given command on the stack
+        func.call(@stack)
+
+        # if the command was successful, add the command to the stack
+        @commands.push(Golfmoji.aliases.dig(cmd, :moji))
+      rescue Exception => e
+        # get the backed up stack and set it as the new one
+        @stack = @history.pop
+
+        # print the error message
+        p e
+      end
+    end
+
+    def exec
+      cmd = ''
+      while true
+        puts 'Stack: ' + @stack.inspect
+        print '> '
+
+        cmd = read
+
+        case cmd
+        when 'back'
+          back
+        when /^help$/
+          puts '🚨 Help:'
+          puts 'Use "help <search pattern>" to search for commands. (Pro tip 🤐: use "." to get all of them!)'
+        when /^help ?(.*)/
+          puts 'Available commands:'
+          s = $1
+          p Golfmoji.aliases.keys.sort.select {|e| /.*#{s}.*/ =~ e}
+        when 'help'
+          puts 'Available commands:'
+          s = $1
+          p Golfmoji.aliases.keys.sort.select {|e| /.*#{s}.*/ =~ e}
+        when 'exit'
+          break
+        else
+          call(cmd)
+        end
+      end
+
+      puts 'Stack: ' + @stack.inspect
+      puts 'Commands: ' + @commands.join.inspect
 
       if OS.mac?
         IO.popen('pbcopy', 'w') do |f|
           f << @commands.join
         end
+      elsif OS.windows?
+        IO.popen('clip', 'w') do |f|
+          f << @commands.join
+        end
+      end
 
+      if OS.mac? or OS.windows?
         puts 'Info:'
         puts 'The source-code has been copied to your clip-board!'
         puts 'You may paste it into a new file or post it on a website.'
-      else
-        print("\n" + src.join + "\n\n")
       end
     end
   end
 end
 
-Golfmoji::Emolator.new().start
-
-# if !ARGV.empty?
-#   # we have a file given. Read it or exit if the given file doesn't exist
-#   unless File.exist?(ARGV.first)
-#     STDERR.puts "Error: '" + ARGV.first + "' doesn't exist!"
-#     exit 1
-#   end
-
-#   src = File.read(ARGV.first).rstrip.split("\n")
-# else
-#   # we don't have a file given, so we ask for input
-
-#   print("Please enter the source-code you want to parse:\n(finish with an empty line)\n\n")
-#   src = STDIN.gets("\n\n").rstrip.split("\n")
-# end
-
-# src = src.map { |i|
-#   funcs[i]
-# }
+Golfmoji::Emolator.new.exec
