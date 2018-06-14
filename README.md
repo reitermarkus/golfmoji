@@ -1,33 +1,45 @@
 # ⛳️ golfmoji [![Build Status](https://travis-ci.org/reitermarkus/golfmoji.svg?branch=master)](https://travis-ci.org/reitermarkus/golfmoji)
 
-golfmoji is a new esoteric golfing language, which is currently heavily under development. The source-code contains ONLY emojis. Each emoji will be interpreted as a function or operation or stuff like that.
+golfmoji is a new stack-based esoteric golfing language, which is currently heavily under development. 
+
+golfmoji code consists only of emojis. Each emoji calls a specific function which operates on top of a stack. If all emojis are executed, the golfmoji interpreter will print the head of the stack.
+
+## Getting started
+
+**Execute emoji code:**
+1. Create a file. (like `example.⛳`)
+2. Fill that file with valid emojis.
+3. Run `bin/golfmoji -f example.⛳ [arg1, arg2, ...]` to execute it. Those optional arguments will initialize the stack values. So if we call `-f example.⛳ abc def`, all code from `example.⛳` will be executed. The initial stack would be `["abc", "def"]`.
+
+**Use the em😲lator:**
+1. Run `bin/emolator [arg1, arg2, ...]`. Those optional arguments would initialize the stack like in the previous example.
+2. Type `help` and hit `return` to get more information about how it works.
 
 ## Why emojis?!
-Beside this language, there are existing many other great golfing languages.
-We want to be a part of that community and try to push code-golfing to the next level by providing a new beautiful, short and funny golfing-language for everyone!
+
+We want to push golfing languages to the next level by creating a new beautiful, short and (maybe) funny golfing language for everyone!
 
 ## What do we have so far?
-We have just started, trying to implement an golfmoji-interpreter.
 
-We are still planning, how we want to structure the language itself and how it works behind the scenes.
-We also try to implement some common golf-problems.
+Theres still a lot to do. Some basic actions are implemented, like executing golfmoji code on top of a stack.
 
-## What is planned for the future?
-First we want to implement a working golfmoji-interpreter, which will be written in ruby.
-We also plan to create a crystal-port if possible.
+In addition there is also a basic em😲lator ("emolator") which can be used to interactively program code by using human readable instructions which will then translate that code to golfmoji code.
 
-## Why we (will) talk about "bytes" at code-golf?
+### Important missing features
 
-We will only allow **256** *(= 2^8)* emojis.
-Therefore we can simply create a emoji-code-table:
+- We still have to figure out which commands are the most useful ones because we are limited to 256 emojis.
+- There is no string mechanic implemented! Currently strings can only be used if they were passed as arguments.
+
+**At the current state of development, we _don't_ recommend to use golfmoji for any serious usecases.**
 
 ## Commit-Conventions
-Of course, each commit-message *should* contain at least one emoji.
 
-Here are the most important guide-lines, which emoji you could use for each commit-type:
+Each commit-message *should* contain at least one emoji.
+
+Here are the most important guidelines, which emoji you may use for each commit-type:
 
 | emoji | commit-type |
 |-------|-------------|
-| ✨ | features |
-| 🐛 | fixes     |
+| ✨ | feature  |
+| 🐛 | bugfix    |
 | 🔨 | refactoring |
