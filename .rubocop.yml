@@ -22,3 +22,11 @@ Style/SymbolArray:
 
 Style/WordArray:
   Enabled: false
+
+# This would be realy bad 😥
+Style/AsciiComments:
+  Enabled: false
+
+# Required for some cases
+Style/PerlBackrefs:
+  Enabled: false

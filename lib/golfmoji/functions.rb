@@ -25,21 +25,21 @@ module Golfmoji
 
     # set given function for each given alias
     aliases.each do |a|
-      @aliases[a] = {:moji => moji, :func => func}
+      @aliases[a] = { :moji => moji, :func => func }
     end
   end
 
   private_class_method :moji
 
   # swap last 2 values in stack
-  moji '🔀', ['swap'], ->(s) {
+  moji '🔀', ['swap'], lambda { |s|
     v1, v2 = s.pop(2)
     s.push v2
     s.push v1
   }
 
   # right-roll the stack
-  moji '⏩', ['roll'], ->(s) {
+  moji '⏩', ['roll'], lambda { |s|
     v = s.pop
     s.reverse
     s.push v
@@ -70,12 +70,12 @@ module Golfmoji
   moji '9️⃣', ['9'], ->(s) { s.push(9) }
 
   # put lowercase alphabeth
-  moji '🔡', ['lowercase_alphabeth'], ->(s) {
+  moji '🔡', ['lowercase_alphabeth'], lambda { |s|
     s.push 'abcdefghijklmnopqrstuvwxyz'
   }
 
   # put uppercase alphabeth
-  moji '🔠', ['uppercase_alphabeth'], ->(s) {
+  moji '🔠', ['uppercase_alphabeth'], lambda { |s|
     s.push 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   }
 
@@ -97,26 +97,26 @@ module Golfmoji
 
   # get array from string-array
   # "[1, 2, 3]" -> [1, 2, 3]
-  moji '📃', ['parse'], ->(s) {
+  moji '📃', ['parse'], lambda { |s|
     s.push JSON.parse(s.pop)
   }
 
   # reverse array
   # [1, 2, 3] -> [3, 2, 1]
-  moji '↩', ['reverse'], ->(s) {
+  moji '↩', ['reverse'], lambda { |s|
     s.push s.pop.reverse
   }
 
   # split string with string
   # "a b c", " " -> ["a", "b", "c"]
-  moji '✂', ['split'], ->(s) {
+  moji '✂', ['split'], lambda { |s|
     val, sep = s.pop(2)
     s.push val.split(sep)
   }
 
   # get ordinal value of char array or string
   # or get character of ordinal value
-  moji '💱', ['ordinal'], ->(s) {
+  moji '💱', ['ordinal'], lambda { |s|
     val = s.pop
 
     if val.is_a?(String)
@@ -128,18 +128,18 @@ module Golfmoji
 
   # get length of array (doesn't remove the array!)
   # [5, 8, "abc"] -> 3
-  moji '🗜', ['length'], ->(s) {
+  moji '🗜', ['length'], lambda { |s|
     s.push s.top.length
   }
 
   # put first n characters of string
-  moji '➡', ['first_n'], ->(s) {
+  moji '➡', ['first_n'], lambda { |s|
     str, n = s.pop(2)
     s.push str[0...n.to_i]
   }
 
   # put last n characters of string
-  moji '⬅', ['last_n'], ->(s) {
+  moji '⬅', ['last_n'], lambda { |s|
     str, n = s.pop(2)
     s.push str.reverse[0...n.to_i].reverse
   }
@@ -147,7 +147,7 @@ module Golfmoji
   # concatenate string (or array of strings) with string
   # "abc", "def" -> "abcdef"
   # ["a", "b", "c"], "def" -> ["adef", "bdef", "cdef"]
-  moji '✏', ['concat'], ->(s) {
+  moji '✏', ['concat'], lambda { |s|
     val, str = s.pop(2)
     if val.is_a?(Array)
       s.push(val.map { |e|
@@ -160,12 +160,12 @@ module Golfmoji
 
   # check for uppercase
   # "Test" -> [true, false, false, false]
-  moji '🔼', ['uppercase?'], ->(s) {
+  moji '🔼', ['uppercase?'], lambda { |s|
     s.push(s.top.split('').map { |e| e >= 'A' && e <= 'Z' })
   }
 
   # change upper/lower case
-  moji '⏫', ['change_case'], ->(s) {
+  moji '⏫', ['change_case'], lambda { |s|
     val, val2 = s.pop(2)
 
     v = val.downcase
@@ -179,7 +179,7 @@ module Golfmoji
   # check if value in list
   # [1, 2, 3], 2 -> true
   # [1, 2, 3], 5 -> false
-  moji '🔍', ['search'], ->(s) {
+  moji '🔍', ['search'], lambda { |s|
     arr, val = s.pop(2)
     arr.include? val
   }
@@ -187,7 +187,7 @@ module Golfmoji
   # join array (with optional separator)
   # ["a", "b", "c"], "," -> "a,b,c"
   # ["a", "b", "c"] -> "abc"
-  moji '🔗', ['join'], ->(s) {
+  moji '🔗', ['join'], lambda { |s|
     val = s.pop
 
     vals, sep = val.respond_to?(:each) ? [val, ''] : [s.pop, val]
@@ -197,7 +197,7 @@ module Golfmoji
 
   # append to array top value
   # [1, 2, 3], "3" -> [1, 2, 3, "3"]
-  moji '🖇', ['append'], ->(s) {
+  moji '🖇', ['append'], lambda { |s|
     arr, val = s.pop(2)
     s.push arr << val
   }
@@ -213,7 +213,7 @@ module Golfmoji
   # surround string with string
   # "abc", "'" -> "'abc'"
   # ["a", "b", "c"] -> ["'a'", "'b'", "'c'"]
-  moji '✉️', ['pack'], ->(s) {
+  moji '✉️', ['pack'], lambda { |s|
     val, sep = s.pop(2)
     if val.is_a?(Array)
       s.push(val.map { |e|
@@ -225,14 +225,14 @@ module Golfmoji
   }
 
   # collect all data in the stack and store it as one array-element holding the data
-  moji '📦', ['collecct'], ->(s) {
+  moji '📦', ['collecct'], lambda { |s|
     s.push(s.top(s.size))
   }
 
   # sum values
   # 1, 2 -> 3
   # [1, 2] -> 3
-  moji '➕', ['sum', 'add'], ->(s) {
+  moji '➕', ['sum', 'add'], lambda { |s|
     val = s.pop
     if val.is_a?(Array)
       v = 0
@@ -249,7 +249,7 @@ module Golfmoji
   # multiply values
   # 2, 4 -> 8
   # [2, 4, 2] -> 16
-  moji '✖️', ['mul', 'multiply'], ->(s) {
+  moji '✖️', ['mul', 'multiply'], lambda { |s|
     val, val2 = s.pop(2)
     if val.is_a?(Array)
       val = val.map { |e|
@@ -264,7 +264,7 @@ module Golfmoji
   # divide values
   # 5, 2 -> 2.5
   # [10, 2, 5], 2 -> [5, 1, 2.5]
-  moji '➗', ['div', 'divide'], ->(s) {
+  moji '➗', ['div', 'divide'], lambda { |s|
     val, val2 = s.pop(2)
     if val.is_a?(Array)
       val = val.map { |e|
@@ -278,7 +278,7 @@ module Golfmoji
 
   # xor values
   # "abc", 32 -> []
-  moji '😵', ['xor'], ->(s) {
+  moji '😵', ['xor'], lambda { |s|
     a, b = s.pop(2)
 
     b = b.to_i
@@ -292,20 +292,20 @@ module Golfmoji
 
   # n first fibonacci-values
   # 5 -> [0, 1, 1, 2, 3]
-  moji '🐢', ['fib'], ->(s) {
+  moji '🐢', ['fib'], lambda { |s|
     s.push fib(s.pop.to_i - 1)
   }
 
   # check if given value is a fibonnaci-value
   # 5 -> true
   # 9 -> false
-  moji '🔎', ['fib?'], ->(s) {
+  moji '🔎', ['fib?'], lambda { |s|
     s.push isfib(s.pop.to_i)
   }
 
   # group objects by occurances
   # [1, 1, 2, 3, 3, 3, 4] -> [[2, 4], [1], [3]]
-  moji '🚬', ['count'], ->(s) {
+  moji '🚬', ['count'], lambda { |s|
     counts = Hash.new(0)
 
     s.pop.each do |e|
