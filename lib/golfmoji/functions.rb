@@ -49,6 +49,12 @@ module Golfmoji
   # reverse the stack
   moji '🔄', ['reverse'], ->(s) { s.reverse }
 
+  # copy current value at stack-head
+  moji '©', ['copy'], ->(s) { s.push s.top }
+
+  # drop current value from the stack
+  moji '🗑️', ['pop', 'drop'], ->(s) { s.pop }
+
   # print value
   moji '💬', ['print'], ->(s) { p s.top }
 
@@ -188,9 +194,6 @@ module Golfmoji
 
     s.push vals.join(sep)
   }
-
-  # copy current value at stack-head
-  moji '©', ['copy'], ->(s) { s.push s.top }
 
   # append to array top value
   # [1, 2, 3], "3" -> [1, 2, 3, "3"]

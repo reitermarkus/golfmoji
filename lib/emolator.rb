@@ -82,13 +82,12 @@ module Golfmoji
           back
         when /^help$/
           puts '🚨 Help:'
-          puts 'Use "help <search pattern>" to search for commands. (Pro tip 🤐: use "." to get all of them!)'
+          puts '- Use "help <search pattern>" to search for commands. (Pro tip 🤐: use "." to get all of them!)'
+          puts '- Enter any command found from the list. If it works, the stack gets updated! 🎉'
+          puts '- Enter "exit" to quit the em😮lator. This will print this resulting mojis and the final stack. 🚪 If supported, the em😮lator will copy the mojis to your 📋. Neat! 🕺'
+          puts '- Enter "back" to jump back to the previous stack-state. ♻️ So handy ☺️'
         when /^help ?(.*)/
-          puts 'Available commands:'
-          s = $1
-          p Golfmoji.aliases.keys.sort.select {|e| /.*#{s}.*/ =~ e}
-        when 'help'
-          puts 'Available commands:'
+          puts 'Available commands: 📜'
           s = $1
           p Golfmoji.aliases.keys.sort.select {|e| /.*#{s}.*/ =~ e}
         when 'exit'
@@ -119,5 +118,12 @@ module Golfmoji
     end
   end
 end
+
+s = '👉👇👈👆'
+16.times do |i|
+  print("\r" + s[i % 4])
+  sleep 0.2
+end
+puts
 
 Golfmoji::Emolator.new.exec
