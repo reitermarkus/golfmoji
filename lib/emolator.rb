@@ -112,9 +112,7 @@ module Golfmoji
         end
       end
 
-      if OS.linux?
-        return
-      end
+      return if OS.linux?
 
       puts 'Info:'
       puts 'The source-code has been copied to your clip-board!'
