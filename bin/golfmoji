@@ -14,7 +14,7 @@ begin
       input = File.new(f, 'r:UTF-8')
     end
   }.parse!
-rescue => e
+rescue StandardError => e
   STDERR.puts e
   exit 1
 end

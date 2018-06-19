@@ -158,6 +158,20 @@ module Golfmoji
     end
   }
 
+  # replace
+  # "bob", "b", "l" -> "lol"
+  # "sun", ["s", "n"], "l" -> "lul"
+  # "man", ["m", "a", "n"], ["g", "u", "y"] -> "guy"
+  moji '🔰', ['replace'], lambda { |s|
+    e, f, t = s.pop(3)
+    case t
+    when String
+      s.push(e.gsub(Regexp.union(f), t))
+    when Array
+      s.push(e.gsub(Regexp.union(f), Hash[f.zip(t)]))
+    end
+  }
+
   # check for uppercase
   # "Test" -> [true, false, false, false]
   moji '🔼', ['uppercase?'], lambda { |s|

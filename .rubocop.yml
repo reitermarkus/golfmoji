@@ -16,6 +16,12 @@ Metrics/CyclomaticComplexity:
 Metrics/LineLength:
   Enabled: false
 
+Metrics/BlockLength:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
 Style/BlockDelimiters:
   EnforcedStyle: semantic
   FunctionalMethods:

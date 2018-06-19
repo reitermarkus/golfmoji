@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'golfmoji/executor'
+require_relative '../lib/golfmoji'
 
 describe Golfmoji::Executor do
-  subject do described_class.new(mojis, argv) end
-  let(:mojis) { [] }
+  subject do described_class.new(Golfmoji::Parser.parse(mojis), argv) end
+  let(:mojis) { '' }
   let(:argv) { [] }
 
   context 'when there are no mojis' do
@@ -19,6 +19,42 @@ describe Golfmoji::Executor do
 
       it 'returns the last argument' do
         expect(subject.execute).to eq 'arg2'
+      end
+    end
+
+    context 'and there is a hello world moji' do
+      let(:mojis) { '⛳️' }
+
+      it 'returns "Hello World!' do
+        expect(subject.execute).to eq 'Hello world!'
+      end
+    end
+  end
+
+  context 'when there is a replace moji' do
+    let(:mojis) { '🔰' }
+
+    context 'and arguments of type String String String' do
+      let(:argv) { ['This is a cool test.', 'cool', 'neat'] }
+
+      it 'replaces the first string with patterns of the second string with the third string' do
+        expect(subject.execute).to eq 'This is a neat test.'
+      end
+    end
+
+    context 'and arguments of type String Array String' do
+      let(:argv) { ['This is a cool test to test nice stuff.', ['cool', 'nice'], 'neat'] }
+
+      it 'replaces the first string with patterns of the second array with the third string' do
+        expect(subject.execute).to eq 'This is a neat test to test neat stuff.'
+      end
+    end
+
+    context 'and arguments of type String Array Array' do
+      let(:argv) { ['This is a small text.', ['small', 'text'], ['neat', 'test']] }
+
+      it 'replaces the first string with patterns of the second array with the third array' do
+        expect(subject.execute).to eq 'This is a neat test.'
       end
     end
   end
