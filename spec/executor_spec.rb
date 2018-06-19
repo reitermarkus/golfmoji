@@ -58,4 +58,16 @@ describe Golfmoji::Executor do
       end
     end
   end
+
+  context 'when there is a splitn moji' do
+    let(:mojis) { '⚔️' }
+
+    context 'and a string followed by a number as argv' do
+      let(:argv) { ['abcdefgh', 3] }
+
+      it 'returns ["abc", "def", "gh"]' do
+        expect(subject.execute).to eq ['abc', 'def', 'ghi']
+      end
+    end
+  end
 end

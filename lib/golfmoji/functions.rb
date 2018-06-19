@@ -114,6 +114,13 @@ module Golfmoji
     s.push val.split(sep)
   }
 
+  # split string to chunks of at most n characters
+  # "abcdefgh", 3 -> ["abc", "def", "gh"]
+  moji '⚔️', ['splitn'], lambda { |s|
+    e, n = s.pop(2)
+    s.push e.scan(/.{1,#{n}}/)
+  }
+
   # get ordinal value of char array or string
   # or get character of ordinal value
   moji '💱', ['ordinal'], lambda { |s|
