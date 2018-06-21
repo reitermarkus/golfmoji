@@ -66,7 +66,7 @@ describe Golfmoji::Executor do
       let(:argv) { ['abcdefgh', 3] }
 
       it 'returns ["abc", "def", "gh"]' do
-        expect(subject.execute).to eq ['abc', 'def', 'ghi']
+        expect(subject.execute).to eq ['abc', 'def', 'gh']
       end
     end
   end
